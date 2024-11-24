@@ -13,6 +13,7 @@ export interface QueryContext {
   userId?: string;
   systemState?: Record<string, any>;
   previousQueries?: string[];
+  cloneDetails?: CloneDetails;
 }
 
 export interface AssistantResponse {
@@ -36,4 +37,10 @@ export interface VectorStore {
 export interface EmbeddingResult {
   vector: number[];
   text: string;
+}
+
+export interface CloneDetails {
+  originalAgentId: string;
+  clonedAgentId: string;
+  timestamp: number;
 }

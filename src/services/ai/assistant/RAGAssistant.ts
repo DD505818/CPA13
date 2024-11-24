@@ -1,16 +1,19 @@
 import { RAGResponse, Document, QueryContext } from './types';
 import { VectorStore } from './VectorDB';
 import { OllamaService } from './OllamaService';
+import { CloneAssistant } from './CloneAssistant';
 
 export class RAGAssistant {
   private vectorStore: VectorStore;
   private ollamaService: OllamaService;
   private contextWindow: number;
+  private cloneAssistant: CloneAssistant;
 
   constructor(vectorStore: VectorStore, contextWindow: number = 5) {
     this.vectorStore = vectorStore;
     this.ollamaService = new OllamaService();
     this.contextWindow = contextWindow;
+    this.cloneAssistant = new CloneAssistant();
   }
 
   async query(
@@ -18,6 +21,19 @@ export class RAGAssistant {
     context: QueryContext = {}
   ): Promise<RAGResponse> {
     try {
+      // Handle cloning logic if specified in the context
+      if (context.cloneDetails) {
+        const clonedAgentDetails = this.cloneAssistant.getClonedAgentDetails(context.cloneDetails.clonedAgentId);
+        if (clonedAgentDetails) {
+          return {
+            answer: `Cloned agent details: ${JSON.stringify(clonedAgentDetails)}`,
+            confidence: 1,
+            sources: [],
+            suggestedActions: []
+          };
+        }
+      }
+
       // Retrieve relevant documents
       const relevantDocs = await this.vectorStore.search(
         question,
