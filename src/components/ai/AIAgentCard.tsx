@@ -1,23 +1,12 @@
 import React from 'react';
-import { Brain, TrendingUp, AlertTriangle, Zap, Copy } from 'lucide-react';
+import { Brain, TrendingUp, AlertTriangle, Zap } from 'lucide-react';
 import type { AIAgent } from '../../services/ai/types';
-import { CloneAssistant } from '../../services/ai/assistant/CloneAssistant';
 
 interface AIAgentCardProps {
   agent: AIAgent;
-  onClone: () => void;
 }
 
-const cloneAssistant = new CloneAssistant();
-
-export default function AIAgentCard({ agent, onClone }: AIAgentCardProps) {
-  const handleClone = () => {
-    const clonedAgentId = cloneAssistant.cloneAgent(agent);
-    const clonedAgentDetails = cloneAssistant.getClonedAgentDetails(clonedAgentId);
-    console.log('Cloned Agent Details:', clonedAgentDetails);
-    onClone();
-  };
-
+export default function AIAgentCard({ agent }: AIAgentCardProps) {
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 dark:bg-gray-800 border border-purple-100 dark:border-purple-900/20">
       <div className="flex items-center justify-between mb-4">
@@ -76,14 +65,6 @@ export default function AIAgentCard({ agent, onClone }: AIAgentCardProps) {
           </div>
         </div>
       )}
-
-      <button
-        onClick={handleClone}
-        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
-      >
-        <Copy className="w-4 h-4" />
-        Clone Agent
-      </button>
     </div>
   );
 }

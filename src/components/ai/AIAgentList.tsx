@@ -2,7 +2,6 @@ import React from 'react';
 import AIAgentCard from './AIAgentCard';
 import type { AIAgent } from '../../services/ai/types';
 import { Brain } from 'lucide-react';
-import { CloneAssistant } from '../../services/ai/assistant/CloneAssistant';
 
 const mockAgents: AIAgent[] = [
   {
@@ -55,14 +54,6 @@ const mockAgents: AIAgent[] = [
   }
 ];
 
-const cloneAssistant = new CloneAssistant();
-
-const handleCloneAgent = (agent: AIAgent) => {
-  const clonedAgentId = cloneAssistant.cloneAgent(agent);
-  const clonedAgentDetails = cloneAssistant.getClonedAgentDetails(clonedAgentId);
-  console.log('Cloned Agent Details:', clonedAgentDetails);
-};
-
 export default function AIAgentList() {
   return (
     <div className="p-6">
@@ -91,7 +82,7 @@ export default function AIAgentList() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {mockAgents.map(agent => (
-          <AIAgentCard key={agent.id} agent={agent} onClone={() => handleCloneAgent(agent)} />
+          <AIAgentCard key={agent.id} agent={agent} />
         ))}
       </div>
 
